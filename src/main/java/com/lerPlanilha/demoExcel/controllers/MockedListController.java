@@ -1,5 +1,6 @@
 package com.lerPlanilha.demoExcel.controllers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -15,10 +16,15 @@ import com.lerPlanilha.demoExcel.models.MockedData;
 @RequestMapping("/api")
 public class MockedListController {
 
-    @GetMapping("/mocked-list")
-    public ResponseEntity<List<MockedData>> getMockedList() {
-        List<String> mockedData = Arrays.asList("item1", "Item2", "item3", "item4", "item5", "item6");
-        MockedData data = new MockedData(mockedData);
-        return ResponseEntity.ok(Collections.singletonList(data));
+    @GetMapping("/lista-de-strings")
+    public ResponseEntity<List<String>> getStringList() {
+        List<String> stringList = new ArrayList<>();
+        stringList.add("item1");
+        stringList.add("Item2");
+        stringList.add("item3");
+        stringList.add("item4");
+        stringList.add("item5");
+
+        return ResponseEntity.ok(stringList);
     }
 }
