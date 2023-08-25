@@ -1,5 +1,6 @@
 package com.lerPlanilha.demoExcel.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.apache.poi.ss.usermodel.*;
@@ -14,8 +15,13 @@ public class ExcelMicroservice {
 
     private List<String> columnValues = new ArrayList<>();
 
+    @Autowired
+    private FileStorageService fileStorageService;
+
     public String uploadExcel(MultipartFile file, int columnIndex) {
         try {
+            fileStorageService.saveFile(file);
+
             // Ler o arquivo Excel enviado
             Workbook workbook = new XSSFWorkbook(file.getInputStream());
             Sheet sheet = workbook.getSheetAt(0);
