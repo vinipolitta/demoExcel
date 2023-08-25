@@ -1,5 +1,7 @@
 package com.lerPlanilha.demoExcel.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,8 +16,9 @@ public class ExternalApiService {
 
     private final String apiUrl = "http://localhost:8080/api/lista-de-strings";
 
-    public String getDataFromApi() {
+    public List<String> getDataFromApi() {
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(apiUrl, String.class);
+        List<String> response = restTemplate.getForObject(apiUrl, List.class); // Alteração aqui
+        return response;
     }
 }

@@ -1,5 +1,7 @@
 package com.lerPlanilha.demoExcel.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +16,7 @@ public class ApiController {
     private ExternalApiService apiService;
 
     @GetMapping("/consume-api")
-    public String consumeApi() {
+    public List<String> consumeApi() {
         return apiService.getDataFromApi();
     }
 }
