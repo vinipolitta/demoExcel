@@ -11,24 +11,26 @@ import java.util.List;
 @Service
 public class PlanilhaService {
 
-    public byte[] gerarPlanilha(List<String> resultadoComparacao) throws IOException {
+    public byte[] gerarPlanilhaComComparacao(List<String> listaOriginal, List<String> listaApi,
+            List<String> resultadoComparacao)
+            throws IOException {
         Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Resultado Comparação");
+        Sheet sheet = workbook.createSheet("Nova Planilha");
 
-        // Cabeçalho da planilha
+        // Criar o cabeçalho da nova planilha
         Row headerRow = sheet.createRow(0);
-        headerRow.createCell(0).setCellValue("Item");
-        headerRow.createCell(1).setCellValue("Existência");
+        headerRow.createCell(0).setCellValue("Item Original");
+        headerRow.createCell(1).setCellValue("Existência na Outra Lista");
 
-        // Preenchimento da planilha
-        for (int i = 0; i < resultadoComparacao.size(); i++) {
+        // Preencher a nova planilha com os dados da original e resultados de comparação
+        for (int i = 0; i < listaOriginal.size(); i++) {
             Row dataRow = sheet.createRow(i + 1);
+            String itemOriginal = listaOriginal.get(i);
             String resultado = resultadoComparacao.get(i);
             String[] partesResultado = resultado.split(": ");
-            String item = partesResultado[1];
             String existencia = partesResultado[0];
 
-            dataRow.createCell(0).setCellValue(item);
+            dataRow.createCell(0).setCellValue(itemOriginal);
             dataRow.createCell(1).setCellValue(existencia);
         }
 
