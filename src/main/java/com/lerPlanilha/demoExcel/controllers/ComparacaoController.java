@@ -54,6 +54,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lerPlanilha.demoExcel.services.ExcelMicroservice;
+import com.lerPlanilha.demoExcel.services.ExcelService;
 import com.lerPlanilha.demoExcel.services.ExternalApiService;
 import com.lerPlanilha.demoExcel.services.ListaService;
 import com.lerPlanilha.demoExcel.services.PlanilhaService;
@@ -80,6 +81,24 @@ public class ComparacaoController {
     private ExternalApiService externalApiService;
 
     private static final String SAVE_DIRECTORY = "D:\\TestePlanilha\\";
+
+    @Autowired
+    private ExcelService excelService;
+
+    @GetMapping("/adicionar-coluna")
+    public String adicionarColunaComparacao() {
+        String caminhoArquivoOriginal = "C:\\\\teste\\teste1 (1).xlsx";
+        List<String> listaPlanilha = excelMicroservice.getColumnValues(); // Obtenha a lista da planilha
+        List<String> listaApi = externalApiService.getDataFromApi(); // Obtenha a lista da API
+
+        List<String> resultadoComparacao = listaService.compararListas(listaPlanilha, listaApi);
+        try {
+            excelService.adicionarColunaComparacao(caminhoArquivoOriginal, resultadoComparacao);
+            return "Coluna adicionada com sucesso!";
+        } catch (IOException e) {
+            return "Erro ao adicionar a coluna: " + e.getMessage();
+        }
+    }
 
     @GetMapping("/comparar-listas")
     public String compararListas() throws IOException {
