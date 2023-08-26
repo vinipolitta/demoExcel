@@ -87,7 +87,7 @@ public class ComparacaoController {
 
     @GetMapping("/adicionar-coluna")
     public String adicionarColunaComparacao() {
-        String caminhoArquivoOriginal = "C:\\teste\\teste1 (1).xlsx";
+        String caminhoArquivoOriginal = "C:\\teste\\vini.xlsx";
         List<String> listaPlanilha = excelMicroservice.getColumnValues(); // Substitua pela obtenção real dos dados da
                                                                           // planilha
         List<String> listaApi = externalApiService.getDataFromApi(); // Substitua pela obtenção real dos dados da API
