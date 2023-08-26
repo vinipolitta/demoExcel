@@ -12,35 +12,37 @@ import java.util.List;
 @Service
 public class ExcelService {
 
-    public void adicionarColunaComparacao(String caminhoArquivoOriginal, List<String> resultadoComparacao)
+    public String criarNovaPlanilhaComColuna(String caminhoArquivoOriginal, List<String> resultadoComparacao)
             throws IOException {
         FileInputStream fis = new FileInputStream(caminhoArquivoOriginal);
         Workbook workbook = new XSSFWorkbook(fis);
-        Sheet sheet = workbook.getSheetAt(0); // Supondo que a planilha está na primeira aba
+        Sheet sheet = workbook.getSheetAt(0);
 
-        // Adicionar um cabeçalho para a nova coluna
         Row headerRow = sheet.getRow(0);
         Cell headerCell = headerRow.createCell(sheet.getRow(0).getLastCellNum());
         headerCell.setCellValue("Existência na Outra Lista");
 
-        // Preencher a nova coluna com os resultados
-        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-            Row dataRow = sheet.getRow(i);
-            String resultado = resultadoComparacao.get(i - 1);
+        int rowNum = 1; // Começar da segunda linha, assumindo que a primeira é o cabeçalho
+        for (String resultado : resultadoComparacao) {
+            Row dataRow = sheet.getRow(rowNum);
             String[] partesResultado = resultado.split(": ");
             String existencia = partesResultado[0];
 
-            Cell newCell = dataRow.createCell(sheet.getRow(i).getLastCellNum());
+            Cell newCell = dataRow.createCell(sheet.getRow(rowNum).getLastCellNum());
             newCell.setCellValue(existencia);
+
+            rowNum++; // Avançar para a próxima linha
         }
 
         fis.close();
 
-        // Salvar o arquivo modificado
-        FileOutputStream fos = new FileOutputStream(caminhoArquivoOriginal);
+        String caminhoNovaPlanilha = "C:\\teste\\NewPlanilha\\nova-planilha.xlsx"; // Defina o caminho da nova planilha
+        FileOutputStream fos = new FileOutputStream(caminhoNovaPlanilha);
         workbook.write(fos);
         fos.close();
 
         workbook.close();
+
+        return caminhoNovaPlanilha;
     }
 }

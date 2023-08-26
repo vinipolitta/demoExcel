@@ -87,13 +87,15 @@ public class ComparacaoController {
 
     @GetMapping("/adicionar-coluna")
     public String adicionarColunaComparacao() {
-        String caminhoArquivoOriginal = "C:\\\\teste\\teste1 (1).xlsx";
-        List<String> listaPlanilha = excelMicroservice.getColumnValues(); // Obtenha a lista da planilha
-        List<String> listaApi = externalApiService.getDataFromApi(); // Obtenha a lista da API
+        String caminhoArquivoOriginal = "C:\\teste\\teste1 (1).xlsx";
+        List<String> listaPlanilha = excelMicroservice.getColumnValues(); // Substitua pela obtenção real dos dados da
+                                                                          // planilha
+        List<String> listaApi = externalApiService.getDataFromApi(); // Substitua pela obtenção real dos dados da API
 
         List<String> resultadoComparacao = listaService.compararListas(listaPlanilha, listaApi);
+
         try {
-            excelService.adicionarColunaComparacao(caminhoArquivoOriginal, resultadoComparacao);
+            excelService.criarNovaPlanilhaComColuna(caminhoArquivoOriginal, resultadoComparacao);
             return "Coluna adicionada com sucesso!";
         } catch (IOException e) {
             return "Erro ao adicionar a coluna: " + e.getMessage();
